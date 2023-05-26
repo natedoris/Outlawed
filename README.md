@@ -1,4 +1,4 @@
-# Outlawed - The mod to LucasArts 1997 game "Outlaws"
+# Outlawed - A mod to LucasArts 1997 game "Outlaws"
 ## Update
 This is a work in progress - For a ready made compiled version complete with instructions come see us in Discord, "OutlawsTheGame"!
 
