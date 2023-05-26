@@ -14,7 +14,6 @@
 #include "Mods/stats.h"
 
 #include <mmsystem.h>
-
 #pragma comment(lib, "winmm.lib")
 
 // File directory constants
@@ -178,11 +177,6 @@ DWORD WINAPI Main(HMODULE hModule)
 {
 	Hook hk;
 	void* D3D9Device[119];
-	//AllocConsole();
-	FILE* f;
-	freopen_s(&f, "CONOUT", "w", stdout);
-	std::cout << "Hack Thread Init" << std::endl;
-
 
 	if (!Memory::base)
 		return 0;
