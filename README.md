@@ -3,7 +3,7 @@
 Have you ever wondered what additional stats you're missing out on while playing Outlaws? This mod brings you a little closer to a modern game statistics board. The game only displays your score (kills) but with this mod you'll be able to see KDR, kills, deaths and how many times you died a certain way. For the TNT enthusiasts I have also included the ability to track how high you fly. Save your stats to a photo for upload / bragging rights.
 
 ## How does it work?
-In a nutshell, Outlawed is a DLL that is renamed to an original Outlaws file (olhook.dll). The original olhook.dll is renamed to oldhook.dll. When olwin.exe is run it loads my version first which overwrites certain areas in memory to intercept specific function calls. All calls looking for the original olhook.dll are still passed onto oldhook.dll so as to keep original functionality.
+In a nutshell, Outlawed is a DLL that is renamed to an original Outlaws file (olhook.dll). When olwin.exe is run it loads my version first which overwrites certain areas in memory to intercept specific function calls. All calls looking for the original olhook.dll are still passed onto oldhook.dll so as to keep original functionality.
 
 ## Requirements
 -The game must be a GOG / CD or my backspace patched version. If you have the Steam version you will need to replace olwin.exe with the GOG / CD / backspace patched executable.   
