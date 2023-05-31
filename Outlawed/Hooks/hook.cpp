@@ -1,6 +1,8 @@
 #include "../pch.h"
 #include "hook.h"
 
+/* Code from guidedhacking.com - These guys rock for all your gaming hacking needs */
+
 BOOL Hook::Set(BYTE* src, BYTE* dst, int length)
 {
 	if (length < 5)

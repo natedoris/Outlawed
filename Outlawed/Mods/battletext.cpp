@@ -9,7 +9,17 @@ namespace BattleText
 		const char blew_up[9] = " blew up";
 	} Actions;
 
-
+	bool PlayersChatting(char* player_text)
+	{
+		for (int i = 0; i < strlen(player_text); i++)
+		{
+			if (i == ':') 
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	void UpdateSuicideStats(char* token, struct Stats* stats)
 	{
@@ -36,17 +46,6 @@ namespace BattleText
 		}
 	}
 
-	void UpdateKills(char* token, Stats* stats)
-	{
-		if (strcmp(token, "killed") == 0) {
-			stats->kills += 1;
-		}
-		else if (strcmp(token, "blew") == 0) {
-			stats->kills += 1;
-			stats->kills_from_dynamite += 1;
-		}
-	}
-
 	void UpdateDeaths(char* token, Stats* stats)
 	{
 		char* ret = NULL;
@@ -69,34 +68,37 @@ namespace BattleText
 
 		size_t len_player_name = strlen(Player::Name());
 		size_t len_battle_text = strlen(battle_text);
-
-		std::string player_actions = Player::Name();
 		
-		// Check battle_text for player written text - Don't want players to have the ability to 
-		// write "killed" and cheat on their scores
-		if (len_battle_text > len_player_name + 3)
+		/* Check for players name */
+		if (strncmp(Player::Name(), battle_text, len_player_name) == 0)
 		{
-			if (battle_text[len_player_name + 2] == ':') {
-				// This is a player written message, check for a / command
-				if (battle_text[len_player_name + 4] == '/') {
-					// do some stuff with the slash command
+			if (len_battle_text > len_player_name + 2) // i.e. "player_name :"
+			{
+				switch (battle_text[len_player_name + 1])
+				{
+				case ':':
+					// Future - Check for a /slash command 
+					// For now just exit because we don't care about the user chat
+					break;
+				case 'k':
+					// +1 total kills
+					stats->kills += 1;
+					break;
+				case 'b':
+					// +1 total kills and +1 dynamite
+					stats->kills += 1;
+					stats->kills_from_dynamite += 1;
+					break;
+				default:
+					break;
 				}
-				// Exit
-				return;
 			}
-		}
+		} 
+		
+		/* Disregard any player chat. (All player chat uses a colon) */
+		if(PlayersChatting(battle_text)) return;
 
-		int n = strncmp(battle_text, , len_player_name);
-
-		if (n == 0)
-		{
-			// Check for actions like "killed" or "blew up"
-
-			
-		}
-
-		//===========================
-
+		/* Check */
 		char temp[100];
 
 		strcpy_s(temp, _countof(temp), battle_text);
@@ -116,23 +118,6 @@ namespace BattleText
 				break;
 			}
 
-			if (strcmp(token, Player::Name()) == 0) {
-				// If not a ":" or / command then check for 1 of 2 possible actions
-				// "killed or blew up"
-				std::cout << "Found players name " << Player::Name() << std::endl;
-				token = strtok_s(NULL, " ", &next_token);
-				if (strcmp(token, ":") == 0) {
-					// Check to see if there is a /slash command
-					token = strtok_s(NULL, "/", &next_token);
-					std::cout << "Found a command " << token << std::endl;
-				}
-				else {
-					//
-					UpdateKills(token, stats);
-				}
-				break;
-			}
-			token = NULL;
 		}
 		// Finally if none of those conditions are met then check these 2 actions
 		// strstr the original array and look for "killed you or blew you up"

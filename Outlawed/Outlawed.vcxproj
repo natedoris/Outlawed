@@ -169,6 +169,7 @@
     <ClInclude Include="Hooks\gh_d3d9.h" />
     <ClInclude Include="Hooks\hook.h" />
     <ClInclude Include="Hooks\Hooks.h" />
+    <ClInclude Include="Lib\stringops.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Mods\battletext.h" />
     <ClInclude Include="pch.h" />
@@ -199,6 +200,10 @@
     </ClCompile>
     <ClCompile Include="Hooks\hook.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Lib\stringops.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../pch.h</PrecompiledHeaderFile>
     </ClCompile>
