@@ -6,7 +6,7 @@ Have you ever wondered what additional stats you're missing out on while playing
 In a nutshell, Outlawed is a DLL that is renamed to an original Outlaws file (olhook.dll). The original olhook.dll is renamed to oldhook.dll. When olwin.exe is run it loads my version first which overwrites certain areas in memory to intercept specific function calls. All calls looking for the original olhook.dll are still passed onto oldhook.dll so as to keep original functionality.
 
 ## Requirements
--The game must be a GOG / CD or my backspace patched version. If you have the Steam version you will need to replace olwin.exe with the GOG / CD / backspace patched executable. 
+-The game must be a GOG / CD or my backspace patched version. If you have the Steam version you will need to replace olwin.exe with the GOG / CD / backspace patched executable.   
 -"olcfg" must be set to 3Dfx Glide or Direct3D and the emulator MUST be NGLIDE. (Compatible emulators must use direct3d9 for this to work)  
 
 ## Where to download and install?
