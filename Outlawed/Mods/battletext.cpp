@@ -4,11 +4,6 @@
 
 namespace BattleText
 {
-	struct {
-		const char killed[8] = " killed";
-		const char blew_up[9] = " blew up";
-	} Actions;
-
 	bool PlayersChatting(char* player_text)
 	{
 		for (int i = 0; i < strlen(player_text); i++)
@@ -21,28 +16,35 @@ namespace BattleText
 		return false;
 	}
 
-	void UpdateSuicideStats(char* token, struct Stats* stats)
+	void UpdateSuicideStats(char* battle_text, struct Stats* stats)
 	{
-		if (strcmp(token, "blew") == 0) {
-			stats->deaths += 1;
-			stats->suicides_dynamite += 1;
-			stats->death_from_dynamite += 1;
-			return;
-		}
-		else if (strcmp(token, "drowned!") == 0) {
-			stats->deaths += 1;
-			stats->suicides_drowned += 1;
-			return;
-		}
-		else if (strcmp(token, "got") == 0) {
-			stats->deaths += 1;
-			stats->suicides_crushed += 1;
-			return;
-		}
-		else if (strcmp(token, "fell") == 0) {
-			stats->deaths += 1;
-			stats->suicides_fell += 1;
-			return;
+		if (strncmp(battle_text, "You", 3))
+		{
+			switch (battle_text[4])
+			{
+			case 'b':
+				stats->deaths += 1;
+				stats->suicides_dynamite += 1;
+				stats->death_from_dynamite += 1;
+				break;
+
+			case 'd':
+				stats->deaths += 1;
+				stats->suicides_drowned += 1;
+				break;
+
+			case 'g':
+				stats->deaths += 1;
+				stats->suicides_crushed += 1;
+				break;
+
+			case 'f':
+				stats->deaths += 1;
+				stats->suicides_fell += 1;
+
+			default:
+				break;
+			}
 		}
 	}
 
@@ -98,29 +100,9 @@ namespace BattleText
 		/* Disregard any player chat. (All player chat uses a colon) */
 		if(PlayersChatting(battle_text)) return;
 
-		/* Check */
-		char temp[100];
-
-		strcpy_s(temp, _countof(temp), battle_text);
-
-		char* token = NULL;
-		char* next_token = NULL;
-
-		token = strtok_s(temp, " ", &next_token);
-
-		while (token != NULL) {
-
-			// Check to see if Players name is in the text
-			if (strcmp(token, "You") == 0) {
-				// Check 1 of 4 possible actions and increment stats
-				token = strtok_s(NULL, " ", &next_token);
-				UpdateSuicideStats(token, stats);
-				break;
-			}
-
-		}
 		// Finally if none of those conditions are met then check these 2 actions
 		// strstr the original array and look for "killed you or blew you up"
+		UpdateSuicideStats(battle_text, stats);
 		UpdateDeaths(battle_text, stats);
 
 		// Update our KDR
