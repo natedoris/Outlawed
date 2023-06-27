@@ -87,7 +87,7 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		}
 	}
 
-
+	/* Enable / Disable stats sprite */
 	if (GetAsyncKeyState(VK_F12) & 1)
 	{
 		if (!display_stats) {
@@ -98,6 +98,7 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		}
 	}
 
+	/* Save a copy of your current stats to file */
 	if (GetAsyncKeyState(VK_HOME) & 1)
 	{
 		std::wstring path = IMGDIR + IMG_RESULTS;
@@ -111,17 +112,14 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 	}
 
 
-	/* Draw items */
-	if (display_height)
-	{
+	/* Draw items to screen */
+	if (display_height)	{
 		Gfx_Height.Draw(pDevice);
 	}
 
-	if (display_stats)
-	{
+	if (display_stats) {
 		draw_stats.DrawStatsToScreen(&stats, pDevice);
 	}
-
 
 	return oEndScene(pDevice);
 }
