@@ -18,7 +18,7 @@ namespace BattleText
 
 	void UpdateSuicideStats(char* battle_text, struct Stats* stats)
 	{
-		if (strncmp(battle_text, "You", 3))
+		if (strncmp(battle_text, "You", 3) == 0)
 		{
 			switch (battle_text[4])
 			{
