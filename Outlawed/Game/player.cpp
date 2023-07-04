@@ -39,7 +39,6 @@ namespace Player
 	{
 		max_height = 0.0;
 	}
-
 }
 
 

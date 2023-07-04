@@ -1,20 +1,14 @@
 #include "../pch.h"
 #include "battletext.h"
 #include "../Game/player.h"
+#include "../Game/enemy.h"
+#include "../Game/memory.h"
 
 namespace BattleText
 {
-	bool PlayersChatting(char* player_text)
-	{
-		for (int i = 0; i < strlen(player_text); i++)
-		{
-			if (i == ':') 
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+
+	uintptr_t	player_name = (uintptr_t)Memory::base + 0x1cc8f4;
+
 
 	void UpdateSuicideStats(char* battle_text, struct Stats* stats)
 	{
@@ -48,16 +42,16 @@ namespace BattleText
 		}
 	}
 
-	void UpdateDeaths(char* token, Stats* stats)
+	void UpdateDeaths(char* battle_text, Stats* stats)
 	{
 		char* ret = NULL;
-		ret = strstr(token, "killed you");
+		ret = strstr(battle_text, "killed you");
 		if (ret != NULL) {
 			stats->deaths += 1;
 			return;
 		}
 
-		ret = strstr(token, "blew you up");
+		ret = strstr(battle_text, "blew you up");
 		if (ret != NULL) {
 			stats->deaths += 1;
 			stats->death_from_dynamite += 1;
@@ -70,7 +64,7 @@ namespace BattleText
 
 		size_t len_player_name = strlen(Player::Name());
 		size_t len_battle_text = strlen(battle_text);
-		
+
 		/* Check for players name */
 		if (strncmp(Player::Name(), battle_text, len_player_name) == 0)
 		{
@@ -81,7 +75,6 @@ namespace BattleText
 				case ':':
 					// Future - Check for a /slash command 
 					// For now just exit because we don't care about the user chat
-					break;
 				case 'k':
 					// +1 total kills
 					stats->kills += 1;
@@ -95,13 +88,11 @@ namespace BattleText
 					break;
 				}
 			}
-		} 
-		
-		/* Disregard any player chat. (All player chat uses a colon) */
-		if(PlayersChatting(battle_text)) return;
+		}
 
-		// Finally if none of those conditions are met then check these 2 actions
-		// strstr the original array and look for "killed you or blew you up"
+		/* Disregard any player chat. (All player chat uses a colon) */
+		//if (PlayersChatting(battle_text)) return;
+
 		UpdateSuicideStats(battle_text, stats);
 		UpdateDeaths(battle_text, stats);
 
@@ -114,7 +105,5 @@ namespace BattleText
 		{
 			stats->kdr = (float)stats->kills / (float)stats->deaths;
 		}
-
-
 	}
 }

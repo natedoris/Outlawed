@@ -75,14 +75,14 @@
     <IncludePath>$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>olhook</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <ExternalIncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
     <LibraryPath>$(DXSDK_DIR)Lib\x86;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>olhook</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -166,6 +166,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Game\memory.h" />
     <ClInclude Include="Game\player.h" />
+    <ClInclude Include="Game\players.h" />
     <ClInclude Include="Hooks\gh_d3d9.h" />
     <ClInclude Include="Hooks\hook.h" />
     <ClInclude Include="Hooks\Hooks.h" />

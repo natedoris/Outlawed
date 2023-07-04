@@ -4,6 +4,7 @@
 #include "Hooks/Hooks.h"
 #include "Game/memory.h"
 #include "Game/player.h"
+#include "Game/enemy.h"
 #include "UI/sprite.h"
 #include "UI/screen.h"
 #include "UI/height.h"
@@ -13,6 +14,7 @@
 #include "Mods/battletext.h"
 #include "Mods/stats.h"
 
+#include <vector>
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")
 
@@ -32,6 +34,10 @@ tLobbyandBattleText	oLobbyandBattleText = nullptr;
 
 // pointer to the dummy device
 LPDIRECT3DDEVICE9	dev;
+
+// Multiplayer stats
+Enemy* enemies;
+
 
 // Menu items
 Height				Gfx_Height;
@@ -141,9 +147,9 @@ void __stdcall hkEndofMPlayer(void)
 {
 	mplayer_active = false;
 	ReleaseGraphics();
+	delete[] enemies;
 	return oEndofMPlayer();
 }
-
 
 void __cdecl hkEndofGame(void)
 {
@@ -158,7 +164,14 @@ void __stdcall hkLoadLobbyTexture(void)
 
 	// Zero the player stats and height
 	stats = { 0 };
+	// Reset players height
 	Player::ResetHeight();
+	// Create our lobby list of players
+	enemies = new Enemy[30];
+	for (int i = 0; i <= 30; i++) {
+		enemies[i].name = (char*)Memory::base + 0x1cc8f4 + (i * 0x80);
+	}
+	
 
 	return oLoadLobbyTexture();
 }
@@ -175,6 +188,10 @@ DWORD WINAPI Main(HMODULE hModule)
 {
 	Hook hk;
 	void* D3D9Device[119];
+
+	FILE* f;
+freopen_s(&f, "debug$", "w", stdout);
+std::cout << "Hack Thread Init" << std::endl;
 
 	if (!Memory::base)
 		return 0;

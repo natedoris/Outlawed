@@ -3,5 +3,5 @@
 
 namespace Memory 
 {
-	const HMODULE base		= GetModuleHandle(L"olwin.exe");
+	const HMODULE base	= GetModuleHandle(L"olwin.exe");
 }
