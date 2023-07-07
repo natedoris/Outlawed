@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "main.h"
 #include <string>
+#include "globals.h"
 #include "Hooks/Hooks.h"
 #include "Game/memory.h"
 #include "Game/player.h"
-#include "Game/enemy.h"
+#include "Game/players.h"
 #include "UI/sprite.h"
 #include "UI/screen.h"
 #include "UI/height.h"
@@ -14,7 +15,6 @@
 #include "Mods/battletext.h"
 #include "Mods/stats.h"
 
-#include <vector>
 #include <mmsystem.h>
 #pragma comment(lib, "winmm.lib")
 
@@ -36,7 +36,7 @@ tLobbyandBattleText	oLobbyandBattleText = nullptr;
 LPDIRECT3DDEVICE9	dev;
 
 // Multiplayer stats
-Enemy* enemies;
+Players* players_list;
 
 
 // Menu items
@@ -147,7 +147,7 @@ void __stdcall hkEndofMPlayer(void)
 {
 	mplayer_active = false;
 	ReleaseGraphics();
-	delete[] enemies;
+	delete[] players_list;
 	return oEndofMPlayer();
 }
 
@@ -167,9 +167,10 @@ void __stdcall hkLoadLobbyTexture(void)
 	// Reset players height
 	Player::ResetHeight();
 	// Create our lobby list of players
-	enemies = new Enemy[30];
-	for (int i = 0; i <= 30; i++) {
-		enemies[i].name = (char*)Memory::base + 0x1cc8f4 + (i * 0x80);
+	players_list = new Players[MAX_LOBBY_PLAYERS];
+	for (int i = 0; i < MAX_LOBBY_PLAYERS; i++) {
+		players_list[i].name = (uintptr_t)Memory::base + 0x1cc8f4 + (i * 0x80);
+		std::cout << std::hex << players_list[i].name << std::endl;
 	}
 	
 
@@ -179,7 +180,7 @@ void __stdcall hkLoadLobbyTexture(void)
 // Snag all the messages
 void __cdecl hkLobbyandBattleText(char* message, int param2, BYTE param3)
 {
-	BattleText::Update(message, &stats);
+	BattleText::Update(message, &stats, players_list);
 	return oLobbyandBattleText(message, param2, param3);
 }
 

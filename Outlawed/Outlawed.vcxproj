@@ -167,6 +167,7 @@
     <ClInclude Include="Game\memory.h" />
     <ClInclude Include="Game\player.h" />
     <ClInclude Include="Game\players.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="Hooks\gh_d3d9.h" />
     <ClInclude Include="Hooks\hook.h" />
     <ClInclude Include="Hooks\Hooks.h" />
