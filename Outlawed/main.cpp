@@ -166,14 +166,12 @@ void __stdcall hkLoadLobbyTexture(void)
 	stats = { 0 };
 	// Reset players height
 	Player::ResetHeight();
-	// Create our lobby list of players
-	players_list = new Players[MAX_LOBBY_PLAYERS];
+	// Create our lobby list of players - Deleted in "hkEndofMPlayer" function
+	players_list = new Players[MAX_LOBBY_PLAYERS]{ 0 };
 	for (int i = 0; i < MAX_LOBBY_PLAYERS; i++) {
 		players_list[i].name = (uintptr_t)Memory::base + 0x1cc8f4 + (i * 0x80);
-		std::cout << std::hex << players_list[i].name << std::endl;
 	}
 	
-
 	return oLoadLobbyTexture();
 }
 
@@ -189,10 +187,6 @@ DWORD WINAPI Main(HMODULE hModule)
 {
 	Hook hk;
 	void* D3D9Device[119];
-
-	FILE* f;
-freopen_s(&f, "debug$", "w", stdout);
-std::cout << "Hack Thread Init" << std::endl;
 
 	if (!Memory::base)
 		return 0;

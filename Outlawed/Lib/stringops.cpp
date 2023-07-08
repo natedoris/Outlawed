@@ -4,7 +4,7 @@
 
 namespace stringops
 {
-    void slicestr(const char* src, char* dst, int start_point, int end_point)
+    void slicestr(char* dst, const char* src, int start_point, int end_point)
     {
         size_t count = 0;
         size_t src_len = strlen(src);
