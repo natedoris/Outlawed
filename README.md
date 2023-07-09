@@ -7,7 +7,10 @@ In a nutshell, Outlawed is a DLL that is renamed to an original Outlaws file (ol
 
 ## Requirements
 -The game must be a GOG / CD or my backspace patched version. If you have the Steam version you will need to replace olwin.exe with the GOG / CD / backspace patched executable.   
--"olcfg" must be set to 3Dfx Glide or Direct3D and the emulator MUST be NGLIDE. (Compatible emulators must use direct3d9 for this to work)  
+-"olcfg" must be set to 3Dfx Glide or Direct3D and the emulator MUST be NGLIDE. (Compatible emulators must use direct3d9 for this to work) 
+
+## Dependencies
+-Microsoft DirectX9 SDK is required to compile this from source
 
 ## Where to download and install?
 Download the Outlawed.zip file from here and extract it to your Outlaws game folder. When prompted, overwrite the existing olhook.dll. In the zipped file is documentation and a few additional folders.
