@@ -72,6 +72,12 @@
     <ClInclude Include="Lib\stringops.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Game\players.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">

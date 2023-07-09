@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "main.h"
 #include <string>
+#include "globals.h"
 #include "Hooks/Hooks.h"
 #include "Game/memory.h"
 #include "Game/player.h"
+#include "Game/players.h"
 #include "UI/sprite.h"
 #include "UI/screen.h"
 #include "UI/height.h"
@@ -32,6 +34,10 @@ tLobbyandBattleText	oLobbyandBattleText = nullptr;
 
 // pointer to the dummy device
 LPDIRECT3DDEVICE9	dev;
+
+// Multiplayer stats
+Players* players_list;
+
 
 // Menu items
 Height				Gfx_Height;
@@ -87,7 +93,7 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		}
 	}
 
-
+	/* Enable / Disable stats sprite */
 	if (GetAsyncKeyState(VK_F12) & 1)
 	{
 		if (!display_stats) {
@@ -98,6 +104,7 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 		}
 	}
 
+	/* Save a copy of your current stats to file */
 	if (GetAsyncKeyState(VK_HOME) & 1)
 	{
 		std::wstring path = IMGDIR + IMG_RESULTS;
@@ -111,17 +118,14 @@ HRESULT APIENTRY hkEndScene(LPDIRECT3DDEVICE9 pDevice)
 	}
 
 
-	/* Draw items */
-	if (display_height)
-	{
+	/* Draw items to screen */
+	if (display_height)	{
 		Gfx_Height.Draw(pDevice);
 	}
 
-	if (display_stats)
-	{
+	if (display_stats) {
 		draw_stats.DrawStatsToScreen(&stats, pDevice);
 	}
-
 
 	return oEndScene(pDevice);
 }
@@ -143,9 +147,9 @@ void __stdcall hkEndofMPlayer(void)
 {
 	mplayer_active = false;
 	ReleaseGraphics();
+	delete[] players_list;
 	return oEndofMPlayer();
 }
-
 
 void __cdecl hkEndofGame(void)
 {
@@ -160,15 +164,21 @@ void __stdcall hkLoadLobbyTexture(void)
 
 	// Zero the player stats and height
 	stats = { 0 };
+	// Reset players height
 	Player::ResetHeight();
-
+	// Create our lobby list of players - Deleted in "hkEndofMPlayer" function
+	players_list = new Players[MAX_LOBBY_PLAYERS]{ 0 };
+	for (int i = 0; i < MAX_LOBBY_PLAYERS; i++) {
+		players_list[i].name = (uintptr_t)Memory::base + 0x1cc8f4 + (i * 0x80);
+	}
+	
 	return oLoadLobbyTexture();
 }
 
 // Snag all the messages
 void __cdecl hkLobbyandBattleText(char* message, int param2, BYTE param3)
 {
-	BattleText::Update(message, &stats);
+	BattleText::Update(message, &stats, players_list);
 	return oLobbyandBattleText(message, param2, param3);
 }
 

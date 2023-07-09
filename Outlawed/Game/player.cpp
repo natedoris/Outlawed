@@ -6,7 +6,6 @@ namespace Player
 {
 	/* Offset addresses for your Outlaws character */
 	uintptr_t	player_name = (uintptr_t)Memory::base + 0x11B0B8;
-	char		name[100];
 
 	uintptr_t	y_axis = (uintptr_t)Memory::base + 0x15A1DC;
 	float		max_height{ 0.0 };
@@ -18,7 +17,7 @@ namespace Player
 
 	void ChangeName(const char* new_name)
 	{
-		strcpy_s((char*)player_name, sizeof((char*)player_name), new_name);
+		strcpy_s((char*)player_name, strlen((char*)player_name), new_name);
 	}
 
 	float CurrentHeight()
@@ -39,7 +38,6 @@ namespace Player
 	{
 		max_height = 0.0;
 	}
-
 }
 
 
